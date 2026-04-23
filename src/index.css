@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn {
+  @apply rounded-xl h-10 px-4 grid place-content-center font-semibold  transition-all;
+}
+
+.btn-primary {
+  @apply bg-primary text-white;
+}
+
+.btn-danger {
+  @apply bg-red-500 text-white;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* বা bg color */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #9ca3af;
+  border-radius: 10px;
+}
