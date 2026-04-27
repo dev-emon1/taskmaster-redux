@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   tasks: [],
+  userSpecificTasks: [],
 };
 
 const tasksReducer = createSlice({
@@ -22,16 +23,22 @@ const tasksReducer = createSlice({
     },
 
     removeTask: (state, { payload }) => {
-      state.tasks.filter((task) => task.id !== payload.id);
+      state.tasks = state.tasks.filter((task) => task.id !== payload.id);
     },
 
     updateStatus: (state, { payload }) => {
-      let targetTask = state.tasks.find((task) => task.id === payload);
-      targetTask.status = "running";
+      const targetTask = state.tasks.find((task) => task.id === payload.id);
+      targetTask.status = payload.status;
+    },
+    userTasks: (state, { payload }) => {
+      state.userSpecificTasks = state.tasks.filter(
+        (task) => task.assignedTo === payload,
+      );
     },
   },
 });
 
-export const { addTasks, removeTask } = tasksReducer.actions;
+export const { addTasks, removeTask, updateStatus, userTasks } =
+  tasksReducer.actions;
 
 export default tasksReducer.reducer;
