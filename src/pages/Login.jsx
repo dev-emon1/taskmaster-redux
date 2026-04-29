@@ -1,15 +1,33 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import loginImage from "../assets/image/login.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../redux/reducers/userReducer";
+import toast from "react-hot-toast";
 
 const Login = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.path || "/";
 
-  const onSubmit = ({ email, password }) => {
-    // Email Password Login
+  const { isLoading } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-    console.log(email, password);
+  const onSubmit = async ({ email, password }) => {
+    const res = await dispatch(loginUser({ email, password }));
+
+    if (res.meta.requestStatus === "fulfilled") {
+      toast.success("Login successful");
+      navigate(from);
+    } else {
+      toast.error(res.error?.message || "Login failed");
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -31,8 +49,11 @@ const Login = () => {
                 type="email"
                 id="email"
                 className="w-full rounded-md"
-                {...register("email")}
+                {...register("email", { required: "Email is required" })}
               />
+              {errors.email && (
+                <p className="text-red-500">{errors.email.message}</p>
+              )}
             </div>
             <div className="flex flex-col items-start">
               <label htmlFor="password">Password</label>
@@ -40,12 +61,16 @@ const Login = () => {
                 type="password"
                 id="password"
                 className="w-full rounded-md"
-                {...register("password")}
+                {...register("password", { required: "Password is required" })}
               />
             </div>
             <div className="relative !mt-8">
-              <button type="submit" className="btn btn-primary w-full">
-                Login
+              <button
+                type="submit"
+                className="btn btn-primary w-full"
+                disabled={isLoading}
+              >
+                {isLoading ? "Logging in..." : "Login"}
               </button>
             </div>
             <div>

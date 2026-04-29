@@ -1,22 +1,38 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { useDispatch } from "react-redux";
-import { logout } from "../../redux/reducers/userReducer";
-import { signOut } from "firebase/auth";
-import auth from "../../utils/firebase.config";
+import { logoutUser } from "../../redux/reducers/userReducer";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function MenuDropdown({ children }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleLogout = () => {
-    signOut(auth);
-    dispatch(logout());
+  const handleLogout = async () => {
+    const res = await dispatch(logoutUser());
+
+    if (res.meta.requestStatus === "fulfilled") {
+      toast.success("Logged out successfully");
+      navigate("/login");
+    } else {
+      toast.error("Logout failed");
+    }
   };
+
+  const menuItemClass = (active) =>
+    `${
+      active ? "bg-primary text-white" : "text-gray-900"
+    } group flex w-full items-center rounded-md px-2 py-2 text-sm`;
+
   return (
-    <Menu as="div" className="relative inline-block text-left bg-white z-[999]">
+    <Menu as="div" className="relative inline-block text-left z-[999]">
       <div>
-        <Menu.Button>{children}</Menu.Button>
+        <Menu.Button as="button" className="outline-none">
+          {children}
+        </Menu.Button>
       </div>
+
       <Transition
         as={Fragment}
         enter="transition ease-out duration-100"
@@ -31,32 +47,33 @@ export default function MenuDropdown({ children }) {
             <Menu.Item>
               {({ active }) => (
                 <button
-                  className={`${
-                    active ? "bg-primary text-white" : "text-gray-900"
-                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                  type="button"
+                  onClick={() => navigate("/profile")}
+                  className={menuItemClass(active)}
                 >
                   Profile
                 </button>
               )}
             </Menu.Item>
+
             <Menu.Item>
               {({ active }) => (
                 <button
-                  className={`${
-                    active ? "bg-primary text-white" : "text-gray-900"
-                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                  type="button"
+                  onClick={() => navigate("/settings")}
+                  className={menuItemClass(active)}
                 >
                   Settings
                 </button>
               )}
             </Menu.Item>
+
             <Menu.Item>
               {({ active }) => (
                 <button
+                  type="button"
                   onClick={handleLogout}
-                  className={`${
-                    active ? "bg-primary text-white" : "text-gray-900"
-                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                  className={menuItemClass(active)}
                 >
                   Logout
                 </button>
