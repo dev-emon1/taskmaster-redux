@@ -1,5 +1,5 @@
 import { Toaster } from "react-hot-toast";
-import MainLayout from "./components/layouts/MainLayout";
+import MainLayout from "./shared/layouts/MainLayout";
 
 function App() {
   return (

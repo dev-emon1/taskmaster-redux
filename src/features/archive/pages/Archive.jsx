@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import TaskCard from "../components/tasks/TaskCard";
+import TaskCard from "../../tasks/ui/TaskCard";
 
 const Archive = () => {
   const { tasks } = useSelector((state) => state.tasks);

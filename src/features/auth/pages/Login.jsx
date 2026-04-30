@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import loginImage from "../assets/image/login.svg";
+import loginImage from "../../../assets/image/login.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../redux/reducers/userReducer";
+import { loginUser } from "../../user/userSlice";
 import toast from "react-hot-toast";
 
 const Login = () => {

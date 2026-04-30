@@ -4,7 +4,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateStatus, userTasks } from "../../redux/reducers/tasksReducer";
+import { updateStatus, userTasks } from "../taskSlice";
 import TaskDetailsModal from "./TaskDetailsModal";
 
 const MyTasks = () => {

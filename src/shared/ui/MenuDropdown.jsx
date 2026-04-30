@@ -1,7 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import { useDispatch } from "react-redux";
-import { logoutUser } from "../../redux/reducers/userReducer";
+import { logoutUser } from "../../features/user/userSlice";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 

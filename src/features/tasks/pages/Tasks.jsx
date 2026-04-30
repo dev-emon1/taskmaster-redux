@@ -1,21 +1,24 @@
 import { BellIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import MyTasks from "../components/tasks/MyTasks";
-import TaskCard from "../components/tasks/TaskCard";
-import Modal from "../components/ui/Modal";
+import MyTasks from "../ui/MyTasks";
+import TaskCard from "../ui/TaskCard";
+import Modal from "../../../shared/ui/Modal";
 import { useState } from "react";
-import AddTasksModal from "../components/tasks/AddTasksModal";
+import AddTasksModal from "../ui/AddTasksModal";
 import { useDispatch, useSelector } from "react-redux";
-import MenuDropdown from "../components/ui/MenuDropdown";
+import MenuDropdown from "../../../shared/ui/MenuDropdown";
+import { useGetTasksQuery } from "../../../services/baseApi";
 
 const Tasks = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { name, email, userTasks } = useSelector((state) => state.user);
-  const { tasks } = useSelector((state) => state.tasks);
+  // const { tasks } = useSelector((state) => state.tasks);
 
-  const pendingTasks = tasks.filter((task) => task.status === "pending");
-  const runningTasks = tasks.filter((task) => task.status === "running");
-  const doneTasks = tasks.filter((task) => task.status === "done");
+  const { data: tasks, isLoading, isError, error } = useGetTasksQuery();
+
+  const pendingTasks = tasks?.filter((task) => task.status === "pending");
+  const runningTasks = tasks?.filter((task) => task.status === "running");
+  const doneTasks = tasks?.filter((task) => task.status === "done");
 
   return (
     <>
@@ -56,11 +59,11 @@ const Tasks = () => {
               <div className="flex sticky top-0 justify-between bg-[#D3DDF9] p-5 rounded-md mb-3">
                 <h1>Up Next</h1>
                 <p className="bg-primary text-white w-6 h-6 grid place-content-center rounded-md">
-                  {pendingTasks.length}
+                  {pendingTasks?.length}
                 </p>
               </div>
               <div className="space-y-3">
-                {pendingTasks.map((item) => (
+                {pendingTasks?.map((item) => (
                   <TaskCard key={item.id} task={item} />
                 ))}
               </div>
@@ -69,11 +72,11 @@ const Tasks = () => {
               <div className="flex sticky top-0 justify-between bg-[#D3DDF9] p-5 rounded-md mb-3">
                 <h1>In Progress</h1>
                 <p className="bg-primary text-white w-6 h-6 grid place-content-center rounded-md">
-                  {runningTasks.length}
+                  {runningTasks?.length}
                 </p>
               </div>
               <div className="space-y-3">
-                {runningTasks.map((item) => (
+                {runningTasks?.map((item) => (
                   <TaskCard key={item.id} task={item} />
                 ))}
               </div>
@@ -82,11 +85,11 @@ const Tasks = () => {
               <div className="flex sticky top-0 justify-between bg-[#D3DDF9] p-5 rounded-md mb-3">
                 <h1>Up Next</h1>
                 <p className="bg-primary text-white w-6 h-6 grid place-content-center rounded-md">
-                  {doneTasks.length}
+                  {doneTasks?.length}
                 </p>
               </div>
               <div className="space-y-3">
-                {doneTasks.map((item) => (
+                {doneTasks?.map((item) => (
                   <TaskCard key={item.id} task={item} />
                 ))}
               </div>

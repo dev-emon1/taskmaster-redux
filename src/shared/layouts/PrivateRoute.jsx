@@ -1,10 +1,10 @@
 import { Navigate, useLocation } from "react-router-dom";
-import Loading from "./Loading";
+import Loading from "../ui/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import auth from "../../utils/firebase.config";
-import { setUser } from "../../redux/reducers/userReducer";
+import auth from "../../configs/firebase.config";
+import { setUser } from "../../features/user/userSlice";
 
 const PrivateRoute = ({ children }) => {
   const location = useLocation();

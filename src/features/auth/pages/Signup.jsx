@@ -1,8 +1,8 @@
-import loginImage from "../assets/image/login.svg";
+import loginImage from "../../../assets/image/login.svg";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createUser } from "../redux/reducers/userReducer";
+import { createUser } from "../../user/userSlice";
 import toast from "react-hot-toast";
 
 const Signup = () => {
